@@ -240,7 +240,7 @@ Across 3 campus-wide sensor networks, student teams initially observed **38% pac
   };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-4rem)] p-4 md:p-6 max-w-7xl mx-auto space-y-4">
+    <div className="flex flex-col h-[calc(100vh-6rem)] md:h-[calc(100vh-4rem)] space-y-4">
       {/* Top Header bar */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-[var(--border)]">
         <div>
