@@ -51,20 +51,20 @@ export default function Sidebar() {
   const navItems = user.role === 'admin' ? adminNav : user.role === 'faculty' ? facultyNav : studentNav;
 
   const SidebarContent = () => (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full w-full">
       {/* Logo */}
-      <div className="flex items-center gap-3 px-4 py-5 border-b border-[var(--border)]">
-        <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-[#7c5cfc] to-[#3b82f6] flex items-center justify-center flex-shrink-0">
+      <div className="flex items-center gap-3 px-4 py-5 border-b border-[var(--border)] h-16 flex-shrink-0">
+        <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-[#7c5cfc] to-[#3b82f6] flex items-center justify-center flex-shrink-0 shadow-md">
           <Infinity size={20} className="text-white" />
         </div>
         {!collapsed && (
           <motion.div
             initial={{ opacity: 0, x: -10 }}
             animate={{ opacity: 1, x: 0 }}
-            className="overflow-hidden"
+            className="overflow-hidden min-w-0"
           >
-            <h1 className="text-base font-bold text-[var(--text-primary)] leading-none">ProjectLoop</h1>
-            <p className="text-[10px] text-[var(--text-muted)] mt-0.5">Institutional Intelligence</p>
+            <h1 className="text-base font-bold text-[var(--text-primary)] leading-none truncate">ProjectLoop</h1>
+            <p className="text-[10px] text-[var(--text-muted)] mt-0.5 truncate">Institutional Intelligence</p>
           </motion.div>
         )}
       </div>
@@ -79,7 +79,7 @@ export default function Sidebar() {
                 className={cn(
                   'flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 group relative',
                   isActive
-                    ? 'bg-[#7c5cfc]/10 text-[#7c5cfc]'
+                    ? 'bg-[#7c5cfc]/15 text-[#7c5cfc] font-medium'
                     : 'text-[var(--text-secondary)] hover:bg-white/5 hover:text-[var(--text-primary)]'
                 )}
               >
@@ -100,15 +100,15 @@ export default function Sidebar() {
       </nav>
 
       {/* User section */}
-      <div className="border-t border-[var(--border)] p-3">
+      <div className="border-t border-[var(--border)] p-3 flex-shrink-0">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#7c5cfc] to-[#06b6d4] flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
+          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#7c5cfc] to-[#06b6d4] flex items-center justify-center text-white text-xs font-bold flex-shrink-0 shadow-sm">
             {user.name.charAt(0)}
           </div>
           {!collapsed && (
             <div className="flex-1 min-w-0">
               <p className="text-sm font-medium text-[var(--text-primary)] truncate">{user.name}</p>
-              <p className="text-xs text-[var(--text-muted)] capitalize">{user.role}</p>
+              <p className="text-xs text-[var(--text-muted)] capitalize truncate">{user.role}</p>
             </div>
           )}
           {!collapsed && (
@@ -123,10 +123,11 @@ export default function Sidebar() {
         </div>
       </div>
 
-      {/* Collapse button */}
+      {/* Collapse button for desktop */}
       <button
         onClick={() => setCollapsed(!collapsed)}
-        className="hide-mobile absolute -right-3 top-20 w-6 h-6 rounded-full bg-[var(--surface-2)] border border-[var(--border)] flex items-center justify-center text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:border-[var(--border-light)] transition-all z-10"
+        className="hidden md:flex absolute -right-3 top-20 w-6 h-6 rounded-full bg-[var(--surface-2)] border border-[var(--border)] items-center justify-center text-[var(--text-muted)] hover:text-[var(--text-primary)] hover:border-[var(--border-light)] transition-all z-20 shadow-md"
+        title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
       >
         {collapsed ? <ChevronRight size={12} /> : <ChevronLeft size={12} />}
       </button>
@@ -135,20 +136,24 @@ export default function Sidebar() {
 
   return (
     <>
-      {/* Mobile header */}
-      <div className="show-mobile-only fixed top-0 left-0 right-0 h-14 bg-[var(--surface)] border-b border-[var(--border)] flex items-center justify-between px-4 z-40">
+      {/* Mobile header bar */}
+      <div className="md:hidden fixed top-0 left-0 right-0 h-14 bg-[var(--surface)] border-b border-[var(--border)] flex items-center justify-between px-4 z-40 shadow-sm">
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#7c5cfc] to-[#3b82f6] flex items-center justify-center">
             <Infinity size={16} className="text-white" />
           </div>
-          <span className="font-bold text-sm">ProjectLoop</span>
+          <span className="font-bold text-sm text-[var(--text-primary)]">ProjectLoop</span>
         </div>
-        <button onClick={() => setMobileOpen(!mobileOpen)} className="p-2">
+        <button
+          onClick={() => setMobileOpen(!mobileOpen)}
+          className="p-2 text-[var(--text-secondary)] hover:text-[var(--text-primary)] focus:outline-none"
+          aria-label="Toggle navigation menu"
+        >
           {mobileOpen ? <X size={20} /> : <Menu size={20} />}
         </button>
       </div>
 
-      {/* Mobile sidebar overlay */}
+      {/* Mobile sidebar overlay & drawer */}
       <AnimatePresence>
         {mobileOpen && (
           <>
@@ -156,7 +161,7 @@ export default function Sidebar() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="show-mobile-only fixed inset-0 bg-black/50 z-40"
+              className="md:hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-40"
               onClick={() => setMobileOpen(false)}
             />
             <motion.aside
@@ -164,7 +169,7 @@ export default function Sidebar() {
               animate={{ x: 0 }}
               exit={{ x: -280 }}
               transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-              className="show-mobile-only fixed left-0 top-14 bottom-0 w-[260px] bg-[var(--surface)] border-r border-[var(--border)] z-50"
+              className="md:hidden fixed left-0 top-14 bottom-0 w-[260px] bg-[var(--surface)] border-r border-[var(--border)] z-50 shadow-2xl flex flex-col"
             >
               <SidebarContent />
             </motion.aside>
@@ -172,10 +177,10 @@ export default function Sidebar() {
         )}
       </AnimatePresence>
 
-      {/* Desktop sidebar */}
+      {/* Desktop sticky sidebar */}
       <aside
         className={cn(
-          'hide-mobile fixed left-0 top-0 bottom-0 bg-[var(--surface)] border-r border-[var(--border)] transition-all duration-300 z-30 relative',
+          'hidden md:flex flex-col sticky top-0 h-screen bg-[var(--surface)] border-r border-[var(--border)] transition-all duration-300 z-30 flex-shrink-0 relative',
           collapsed ? 'w-[68px]' : 'w-[240px]'
         )}
       >
