@@ -29,10 +29,10 @@ function AuthGuard({ children }: { children: React.ReactNode }) {
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <AuthGuard>
-      <div className="min-h-screen bg-[var(--background)]">
+      <div className="flex min-h-screen bg-[var(--background)]">
         <Sidebar />
-        <main className="lg:ml-[240px] min-h-screen pt-14 lg:pt-0">
-          <div className="p-4 sm:p-6 lg:p-8">
+        <main className="flex-1 min-w-0 min-h-screen pt-14 md:pt-0 overflow-x-hidden">
+          <div className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto w-full">
             {children}
           </div>
         </main>
