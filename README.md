@@ -1,4 +1,4 @@
-## ProjectLoop (Institutional Intelligence Platform)
+# ProjectLoop (Institutional Intelligence Platform)
 > *"From Student Projects to an Evolving Institutional Intelligence"*
 
 [![Next.js](https://img.shields.io/badge/Next.js-16.3-black?logo=next.js)](https://nextjs.org/)
